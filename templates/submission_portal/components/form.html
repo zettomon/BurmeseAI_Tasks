@@ -1,0 +1,54 @@
+{% extends 'index.html' %} {% block content %}
+<div class="flex-center container">
+  <div class="row container card grey lighten-4" style="padding: 5%">
+    <form class="col s12" hx-post="{% url 'form_add' %}" hx-target="#response">
+      <div class="row">
+        <h3 class="purple-text text-darken-4">Add data</h3>
+      </div>
+
+      <!-- Content -->
+      <div class="input-field col s12">
+        <textarea id="Content" class="materialize-textarea" name="content"></textarea>
+        <label for="Content">Content</label>
+      </div>
+
+      <!-- Category -->
+      <div class="input-field col s12">
+        <h6>Category</h6>
+        <p>
+          <label>
+            <input type="radio" name="category" value="text"/>
+            <span>Text</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input type="radio" name="category" value="image_url"/>
+            <span>ImageURL</span>
+          </label>
+        </p>
+      </div>
+      <!-- Is Reviewed -->
+      <div class="input-field col s12">
+        <h6>Has this input been reviewed?</h6>
+        <p>
+          <label>
+            <input type="hidden" name="is_reviewed" value="False">
+            <input type="checkbox" class="filled-in" name="is_reviewed" value="True">
+            <span>Reviewed</span>
+          </label>
+        </p>
+      </div>
+
+      <div clss="row">
+        <div class="input-field col s12">
+          <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Placeholder for the response -->
+  <div id="response"></div>
+</div>
+{% endblock %}

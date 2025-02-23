@@ -1,7 +1,7 @@
 {% extends 'index.html' %} {% block content %}
 <div class="flex-center container">
   <div class="row container card grey lighten-4" style="padding: 5%">
-    <form class="col s12" hx-post="{% url 'form_add' %}" hx-target="#response">
+    <form class="col s12" hx-post="{% url 'form_add' %}">
       <div class="row">
         <h3 class="purple-text text-darken-4">Add data</h3>
       </div>
@@ -47,8 +47,4 @@
       </div>
     </form>
   </div>
-
-  <!-- Placeholder for the response -->
-  <div id="response"></div>
-</div>
 {% endblock %}

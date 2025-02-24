@@ -1,84 +1,31 @@
-<table class="highlight centered">
-  <thead>
-    <tr>
-      <th>Content</th>
-      <th>
-        <!-- Dropdown Trigger -->
-        <a class="dropdown-trigger black-text" href="#" data-target="category-dropdown"
-          >Category &#9660;</a
-        >
-
-        <!-- Dropdown Structure -->
-        <ul id="category-dropdown" class="dropdown-content">
-          <li
-            hx-post="{% url 'form_filter_category' %}"
-            hx-vals='{"category": "all"}'
-            hx-target="#submission--table"
-          >
-            <a class="black-text center-align">All</a>
-          </li>
-
-          <li
-            hx-post="{% url 'form_filter_category' %}"
-            hx-vals='{"category": "text"}'
-            hx-target="#submission--table"
-          >
-            <a class="black-text center-align">Text</a>
-          </li>
-          <li
-            hx-post="{% url 'form_filter_category' %}"
-            hx-vals='{"category": "image_url"}'
-            hx-target="#submission--table"
-          >
-            <a class="black-text center-align">ImageURL</a>
-          </li>
-        </ul>
-      </th>
-      <th>Modified at</th>
-      <th>Added at</th>
-      <th>Reviewed</th>
-      <th><a class="waves-effect waves-light btn purple accent-4" href="form_add">+</a></th>
-    </tr>
-  </thead>
-
-  <tbody id="submission--table">
-    {% for entry in data %}
-    <tr>
-      <td>{{entry.content}}</td>
-      <td>{{entry.category}}</td>
-      <td>{{entry.updated}}</td>
-      <td>{{entry.created}}</td>
-      {% if entry.is_reviewed == True %}
-      <td>
-        <a
-          class="waves-effect waves-light green-text"
-          hx-post="{% url 'handle_reviewed' %}"
-          hx-vals='{"entry_id": "{{entry.id}}"}'
-          hx-target="this"
-          hx-swap="innerHTML"
-          >Reviewed</a
-        >
-      </td>
-      {% else %}
-      <td>
-        <a
-          class="waves-effect waves-light red-text"
-          hx-post="{% url 'handle_reviewed' %}"
-          hx-vals='{"entry_id": "{{entry.id}}"}'
-          hx-target="this"
-          hx-swap="innerHTML"
-          >Unreviewed</a
-        >
-      </td>
-      {% endif %}
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    var elems = document.querySelectorAll(".dropdown-trigger");
-    var instances = M.Dropdown.init(elems);
-  });
-</script>
+{% for entry in data %}
+<tr>
+  <td>{{entry.content}}</td>
+  <td>{{entry.category}}</td>
+  <td>{{entry.updated}}</td>
+  <td>{{entry.created}}</td>
+  {% if entry.is_reviewed == True %}
+  <td>
+    <a
+      class="waves-effect waves-light green-text"
+      hx-post="{% url 'handle_reviewed' %}"
+      hx-vals='{"entry_id": "{{entry.id}}"}'
+      hx-target="#submission--table"
+      hx-swap="innerHTML"
+      >Reviewed</a
+    >
+  </td>
+  {% else %}
+  <td>
+    <a
+      class="waves-effect waves-light red-text"
+      hx-post="{% url 'handle_reviewed' %}"
+      hx-vals='{"entry_id": "{{entry.id}}"}'
+      hx-target="#submission--table"
+      hx-swap="innerHTML"
+      >Unreviewed</a
+    >
+  </td>
+  {% endif %}
+</tr>
+{% endfor %}

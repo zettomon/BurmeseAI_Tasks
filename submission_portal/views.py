@@ -28,7 +28,7 @@ def form_search(request):
         context = {
             'data': data
         }
-        return render(request, 'submission_portal/submission_page.html', context=context)
+        return render(request, 'submission_portal/components/submission_table.html', context=context)
 
 # Form Category Handler
 def form_filter_category(request):
@@ -41,7 +41,7 @@ def form_filter_category(request):
         context = {
             'data': data
         }
-        return render(request, 'submission_portal/submission_page.html', context=context)
+        return render(request, 'submission_portal/components/submission_table.html', context=context)
 
 # Marking/Unmarking Is_Reviewed Handler
 def handle_reviewed(request):
@@ -50,7 +50,11 @@ def handle_reviewed(request):
         entry = DataEntry.objects.filter(id=entry_id).first()
         entry.is_reviewed = not entry.is_reviewed
         entry.save()
-        return render(request, 'submission_portal/submission_page.html')
+        data = DataEntry.objects.all()
+        context = {
+            'data': data
+        }
+        return render(request, 'submission_portal/components/submission_table.html', context=context)
 
 # Form for adding new data
 def form_add(request):

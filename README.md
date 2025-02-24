@@ -32,7 +32,7 @@ Description: Integration of  [all tasks](https://github.com/Burmese-AI/hiring) f
 | 4. Simple reporting | Show total entries per category |✅|
 | Bonus | Search bar to filter entries by keywords in `content` | ✅|
 | | Implement basic pagination for the data table | 🔜 | 
-| | Use HTMX for everything related to the frontend |🔜 |
+| | Use HTMX for everything related to the frontend |✅|
 ## Internship Task 2: Financial Transaction Tracker
 | Task | Description | Status |
 | ---- | ----------- | ------ |

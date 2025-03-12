@@ -19,18 +19,19 @@
 
     <!-- Search bar function Starts-->
     <div class="row">
-      <form>
+      <form 
+          hx-get="{% url 'form_search' %}"
+          hx-target="#submission--table"
+          hx-swap="outerHTML"
+        >
         <div class="input-field col s10">
-          <input id="search_bar" type="text" class="validate" name="search" />
+          <input id="search_bar" type="text" class="validate" name="search" value="{{search_query}}"/>
           <label for="search_bar">Start searching here . . . </label>
         </div>
         <button
           class="input-field btn waves-effect waves-light col s2 purple darken-4"
           type="submit"
           name="action"
-          hx-post="{% url 'form_search' %}"
-          hx-target="#submission--table"
-          hx-swap="innerrHTML"
         >
           Search
         </button>
@@ -48,30 +49,38 @@
               >
 
               <!-- Dropdown Structure -->
+              <form>
               <ul id="category-dropdown" class="dropdown-content">
-                <li
-                  hx-post="{% url 'form_filter_category' %}"
+                <li>
+                  <a 
+                  hx-get="{% url 'form_filter_category' %}"
                   hx-vals='{"category": "all"}'
                   hx-target="#submission--table"
-                >
-                  <a class="black-text center-align">All</a>
+                  hx-swap="outerHTML"
+                  class="black-text center-align">
+                  All</a>
                 </li>
 
-                <li
-                  hx-post="{% url 'form_filter_category' %}"
+                <li>
+                  <a 
+                  hx-get="{% url 'form_filter_category' %}"
                   hx-vals='{"category": "text"}'
                   hx-target="#submission--table"
-                >
-                  <a class="black-text center-align">Text</a>
+                  hx-swap="outerHTML"
+                  class="black-text center-align">
+                  Text</a>
                 </li>
-                <li
-                  hx-post="{% url 'form_filter_category' %}"
-                  hx-vals='{"category": "image_url"}'
-                  hx-target="#submission--table"
-                >
-                  <a class="black-text center-align">ImageURL</a>
+                <li>
+                  <a 
+                    hx-get="{% url 'form_filter_category' %}"
+                    hx-vals='{"category": "image_url"}'
+                    hx-target="#submission--table"
+                    hx-swap="outerHTML"
+                    class="black-text center-align">
+                    ImageURL</a>
                 </li>
               </ul>
+            </form>
             </th>
             <th>Modified at</th>
             <th>Added at</th>
@@ -79,11 +88,7 @@
             <th><a class="waves-effect waves-light btn purple accent-4" href="form_add">+</a></th>
           </tr>
         </thead>
-
-        <tbody id="submission--table">
-          {% include 'submission_portal/components/submission_table.html' %}
-        </tbody>
-      </table>
+        {% include 'submission_portal/components/pagination.html' %}
 
       <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -92,24 +97,6 @@
         });
       </script>
       <!-- Submission Table section ends -->
-
-      <!-- Pagination -->
-      <!-- Needs to handle for big data sets (to limit the number of pagination page)-->
-      <ul class="pagination center">
-        {% if data.has_previous %}
-        <li class="waves-effect">
-          <a href="?page={{ data.previous_page_number }}"><i class="material-icons"><</i></a>
-        </li>
-        {% endif %} {% for page in data.paginator.page_range %} {% if page == data.number %}
-        <li class="active purple lighten-2"><a href="?page={{ page }}">{{page}}</a></li>
-        {% else %}
-        <li class="waves-effect"><a href="?page={{ page }}">{{page}}</a></li>
-        {% endif %} {% endfor %} {% if data.has_next %}
-        <li class="waves-effect">
-          <a href="?page={{data.next_page_number}}"><i class="material-icons">></i></a>
-        </li>
-        {% endif %}
-      </ul>
     </div>
   </div>
   {% endblock %}

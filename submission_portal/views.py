@@ -1,21 +1,21 @@
-from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.http import HttpResponse
 
 from .models import DataEntry
+from .utils import paginate
 
 # Main Page of Data Submission Portal
 def submission_portal(request):
+    search_query = request.GET.get('search', '')
     data = DataEntry.objects.all()
-    paginator = Paginator(data, 10)
-    page_number = request.GET.get('page')
-    data = paginator.get_page(page_number)
+    data = paginate(data=data, request=request)
     text_count = DataEntry.objects.filter(category='text').count()
     image_url_count = DataEntry.objects.filter(category='image_url').count()
     context = {
         'data': data,
         'text_count': text_count,
-        'image_url_count': image_url_count
+        'image_url_count': image_url_count,
+        'search_query': search_query
     }
     return render(request, 'submission_portal/submission_page.html', context=context)
 
@@ -23,38 +23,47 @@ def submission_portal(request):
 
 # Search Bar Handler
 def form_search(request):
-    if request.method == 'POST':
-        data = DataEntry.objects.filter(content__contains=request.POST.get('search'))
-        context = {
-            'data': data
-        }
-        return render(request, 'submission_portal/components/submission_table.html', context=context)
+    search_query = request.GET.get('search', '')
+    data = DataEntry.objects.filter(content__contains=search_query)
+    data = paginate(data=data, request=request)
+    context = {
+        'data': data,
+        'search_query': search_query
+    }
+    if request.htmx:
+        template = 'submission_portal/components/pagination.html'
+    else:
+        template = 'submission_portal/submission_page.html'
+    return render(request, template, context=context)
 
 # Form Category Handler
 def form_filter_category(request):
-    if request.method == 'POST':
-        category = request.POST.get('category')
-        if category == 'all':
-            data = DataEntry.objects.all()
-        else:
-            data = DataEntry.objects.filter(category=request.POST.get('category'))
-        context = {
-            'data': data
-        }
-        return render(request, 'submission_portal/components/submission_table.html', context=context)
+    category = request.GET.get('category')
+    if category == 'all':
+        data = DataEntry.objects.all()
+    else:
+        data = DataEntry.objects.filter(category=category)
+    data = paginate(data=data, request=request)
+    context = {
+        'data': data,
+        'category_query': category
+    }
+    if request.htmx:
+        template = 'submission_portal/components/pagination.html'
+    else:
+        template = 'submission_portal/submission_page.html'
+    return render(request, template, context=context)
 
 # Marking/Unmarking Is_Reviewed Handler
 def handle_reviewed(request):
-    if request.method == 'POST':
-        entry_id = request.POST.get('entry_id')
-        entry = DataEntry.objects.filter(id=entry_id).first()
-        entry.is_reviewed = not entry.is_reviewed
-        entry.save()
-        data = DataEntry.objects.all()
-        context = {
-            'data': data
-        }
-        return render(request, 'submission_portal/components/submission_table.html', context=context)
+    entry_id = request.GET.get('entry_id')
+    entry = DataEntry.objects.filter(id=entry_id).first()
+    entry.is_reviewed = not entry.is_reviewed
+    entry.save()
+    context = {
+        'entry': entry
+    }
+    return render(request, 'submission_portal/components/is_reviewed.html', context=context)
 
 # Form for adding new data
 def form_add(request):

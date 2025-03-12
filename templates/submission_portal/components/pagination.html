@@ -1,0 +1,25 @@
+        <tbody id="submission--table">
+            {% include 'submission_portal/components/submission_table.html' %}
+        </tbody>
+        </table>
+        <!-- Pagination -->
+        <!-- Needs to handle for big data sets (to limit the number of pagination page)-->
+        <ul class="pagination center" id="pagination" hx-swap-oob="true">
+            {% if data.has_previous %}
+            <li class="waves-effect">
+                <a
+                    href="{% if category_query %}form_filter_category?category={{ category_query }}&{% elif search_query %}search_result?search={{ search_query }}&{% else %}?{% endif %}page={{data.previous_page_number}}"><i
+                        class="material-icons">
+                        <</i> </a> </li> {% endif %} {% for page in data.paginator.page_range %}
+                            {% if page == data.number %} <li class="active purple lighten-2"><a>{{page}}</a></li>
+            {% else %}
+            <li class="waves-effect"><a
+                    href="{% if category_query %}form_filter_category?category={{ category_query }}&{% elif search_query %}search_result?search={{ search_query }}&{% else %}?{% endif %}page={{ page }}">{{page}}</a>
+            </li>
+            {% endif %} {% endfor %} {% if data.has_next %}
+            <li class="waves-effect">
+                <a href="{% if category_query %}form_filter_category?category={{ category_query }}&{% elif search_query %}search_result?search={{ search_query }}&{% else %}?{% endif %}page={{data.next_page_number}}"><i
+                        class="material-icons">></i></a>
+            </li>
+            {% endif %}
+        </ul>

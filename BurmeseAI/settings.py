@@ -38,7 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # Apps
+    # Extension Apps
+    'django_htmx',
+
+    # Web Apps 
     'submission_portal.apps.SubmissionPortalConfig',
 ]
 
@@ -50,6 +53,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # Extension Apps
+     "django_htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = 'BurmeseAI.urls'

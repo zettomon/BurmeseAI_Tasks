@@ -4,28 +4,7 @@
   <td>{{entry.category}}</td>
   <td>{{entry.updated}}</td>
   <td>{{entry.created}}</td>
-  {% if entry.is_reviewed == True %}
-  <td>
-    <a
-      class="waves-effect waves-light green-text"
-      hx-post="{% url 'handle_reviewed' %}"
-      hx-vals='{"entry_id": "{{entry.id}}"}'
-      hx-target="#submission--table"
-      hx-swap="innerHTML"
-      >Reviewed</a
-    >
-  </td>
-  {% else %}
-  <td>
-    <a
-      class="waves-effect waves-light red-text"
-      hx-post="{% url 'handle_reviewed' %}"
-      hx-vals='{"entry_id": "{{entry.id}}"}'
-      hx-target="#submission--table"
-      hx-swap="innerHTML"
-      >Unreviewed</a
-    >
-  </td>
-  {% endif %}
+  <td id="entry--{{entry.id}}">{% include 'submission_portal/components/is_reviewed.html' %}</td>
 </tr>
+
 {% endfor %}

@@ -1,0 +1,19 @@
+{% if entry.is_reviewed == True %}
+  <a
+    class="waves-effect waves-light green-text"
+    hx-get="{% url 'handle_reviewed' %}"
+    hx-vals='{"entry_id": "{{entry.id}}"}'
+    hx-target="#entry--{{entry.id}}"
+    hx-swap="innerHTML"
+    >Reviewed</a
+  >
+{% else %}
+  <a
+    class="waves-effect waves-light red-text"
+    hx-get="{% url 'handle_reviewed' %}"
+    hx-vals='{"entry_id": "{{entry.id}}"}'
+    hx-target="#entry--{{entry.id}}"
+    hx-swap="innerHTML"
+    >Unreviewed</a
+  >
+{% endif %}

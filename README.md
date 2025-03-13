@@ -15,19 +15,22 @@ Description: Integration of  [all tasks](https://github.com/Burmese-AI/hiring) f
     * Junior Task 2
 
 # Installation and quick start
-### For Docker Users
+## For Docker Users
 You can pull the image and run it as follow
 1. **Pull the image**
 ```bash
 docker pull zettomon/burmeseai-tasks:v1
 ```
 3. **Prepare the directory with the .env file**
+
 Either create a .env file with desired secret key and appropriate respective values or rename .env-sample from the project folder with appropriate values
+
 2. **Run the image**
 ```bash
 docker run --env-file .env -p 8000:8000 zettomon/burmeseai-tasks
 ```
 
+## For non-containerized usages
 ### Prerequisites
 Before you begin, ensure you have met the following requirements:
 - **Python** (3.8 or higher)
